@@ -1,5 +1,5 @@
 #Parameters
-$SiteUrl = "https://divergeit-my.sharepoint.com/personal/connorb_divergeit_com"
+$SiteUrl = "https://org-my.sharepoint.com/personal/connorb_company_com"
 $ReportOutput = ".\SharedLinks.csv"
 $ListName = "documents"
     
