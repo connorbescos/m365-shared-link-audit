@@ -1,5 +1,5 @@
 #Parameters
-$SiteUrl = "https://orgname-my.sharepoint.com/personal/username_org_com"
+$SiteUrl = "https://divergeit-my.sharepoint.com/personal/connorb_divergeit_com"
 $ReportOutput = ".\SharedLinks.csv"
 $ListName = "documents"
     
@@ -43,7 +43,15 @@ ForEach($Item in $ListItems)
                 {
                     $AccessType="ViewOnly"
                 }
-                 
+                #Get sharedlink recepients
+                try{
+                    $link = get-pnpfilesharinglink -fileurl $Item.FieldValues["FileRef"]
+                    $SharedWith = $link.grantedToIdentitiesV2.user.email -join ", "
+                }
+                catch{
+                    $SharedWith = $null
+                }
+
                 #Collect the data
                 $Results += New-Object PSObject -property $([ordered]@{
                 Name  = $Item.FieldValues["FileLeafRef"]           
@@ -56,6 +64,8 @@ ForEach($Item in $ListItems)
                 IsActive  = $ShareLink.IsActive
                 Expiration = $ShareLink.Expiration
                 ExternalGuestInvitees = $Sharelink.HasExternalGuestInvitees
+                Recpients = $SharedWith
+                Created = $ShareLink.Created
                 })
             }
         }
